@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RadiDeepX - X-ray Analysis</title>
+    <link rel="stylesheet" href="static/css/bootstrap.min.css" />
+    <style>
+      body {
+        background-color: #121212;
+        color: #ffffff;
+      }
+      .container {
+        max-width: 800px;
+        background: #1e1e1e;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
+      }
+      .custom-title {
+        color: #00aaff;
+        font-size: 2.2rem;
+        font-weight: bold;
+        text-transform: none; /* Ensures no forced uppercase */
+      }
+      .author {
+        font-size: 1rem;
+        color: #bbbbbb;
+        margin-top: -8px;
+      }
+      .btn-primary {
+        margin-top: 15px;
+        background-color: #007bff;
+        border-color: #007bff;
+      }
+      .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+      }
+      .image-preview {
+        border: 2px solid #00aaff;
+        border-radius: 10px;
+        padding: 10px;
+        display: inline-block;
+        max-width: 100%;
+        background-color: #2a2a2a;
+      }
+      pre {
+        background: #252525;
+        padding: 10px;
+        border-radius: 5px;
+        overflow-x: auto;
+        color: #ffffff;
+      }
+      input[type="file"] {
+        background-color: #2a2a2a;
+        color: #ffffff;
+        border: 1px solid #00aaff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5 text-center">
+      <h1 class="custom-title">RadiDeepX</h1>
+      <p class="author">by Kenny Neutron</p>
+
+      <form action="/upload" method="post" enctype="multipart/form-data">
+        <input
+          type="file"
+          name="file"
+          accept="image/*"
+          required
+          class="form-control"
+        />
+        <button type="submit" class="btn btn-primary">Upload & Analyze</button>
+      </form>
+
+      {% if processed_url %}
+      <div class="mt-4 text-center">
+        <h4>Processed Image</h4>
+        <img
+          src="{{ processed_url }}"
+          alt="Processed X-ray"
+          class="img-fluid image-preview"
+        />
+      </div>
+      {% endif %} {% if image_url %}
+      <div class="mt-4 text-center">
+        <h4>Uploaded Image</h4>
+        <img
+          src="{{ image_url }}"
+          alt="Uploaded X-ray"
+          class="img-fluid image-preview"
+        />
+      </div>
+      {% endif %} {% if result %}
+      <div class="mt-4">
+        <h4>Analysis Result</h4>
+        <pre>{{ result | tojson(indent=2) }}</pre>
+      </div>
+      {% endif %}
+    </div>
+
+    <script src="static/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
